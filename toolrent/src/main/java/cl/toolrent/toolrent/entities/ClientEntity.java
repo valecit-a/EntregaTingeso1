@@ -19,14 +19,14 @@ public class ClientEntity {
     private Long clientId;
 
     @Column(name = "nameClient")
-    private String name;
+    private String name;     // <-- propiedad Java: name
 
     @Column(name = "emailClient")
-    private String email;
+    private String email;    // <-- propiedad Java: email
 
     @Column(name = "phoneClient")
-    private String phone;
+    private String phone;    // <-- propiedad Java: phone
 
     @Column(name = "statusClient")
-    private String status;
+    private String status;   // <-- propiedad Java: status
 }
