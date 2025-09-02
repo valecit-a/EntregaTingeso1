@@ -21,4 +21,8 @@ public interface LoanRepository extends JpaRepository<LoanEntity, Long> {
 
     List<LoanEntity> findByToolIdAndStatus(Long toolId, String status);
 
+    boolean existsByClientIdAndStatusAndDueDateBefore(Long clientId, String status, LocalDate date);
+
+    boolean existsByClientIdAndStatus(Long clientId, String status);
+
 }
