@@ -1,30 +1,34 @@
 package cl.toolrent.toolrent.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "AppUser")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
-    private Long userId;
+    @Column(name = "username", length = 50, nullable = false)
+    private String username;     // PK (login)
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "password", nullable = false)
+    private String password;     // SIN hash (por ahora, simple)
 
-    @Column(name = "password")
-    private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 20)
+    private Role role;           // ADMIN | EMPLOYEE
 
-    @Column(name = "role")
-    private String role; // trabajador o empleado
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled = true;
+
+    @Column(name = "fullName")
+    private String fullName;
+
+    @Column(name = "email")
+    private String email;
+
+    public enum Role { ADMIN, EMPLOYEE }
 }
-
