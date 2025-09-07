@@ -20,7 +20,7 @@ public class LoanEntity {
     private Long loanId;
 
     @Column(name = "clientId")
-    private Long clientId;
+    private String clientId;
 
     @Column(name = "toolId")
     private Long toolId;

@@ -17,10 +17,14 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    // Crear cliente
+    // Crear cliente (RUT viene en el body)
     @PostMapping
-    public ResponseEntity<ClientEntity> create(@RequestBody ClientEntity client) {
+    public ResponseEntity<?> create(@RequestBody ClientEntity client) {
         ClientEntity saved = clientService.create(client);
+        if (saved == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("RUT inválido o ya existente");
+        }
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
@@ -30,10 +34,10 @@ public class ClientController {
         return clientService.findAll();
     }
 
-    // Buscar cliente por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
-        ClientEntity c = clientService.findById(id);
+    // Buscar cliente por RUT
+    @GetMapping("/{rut}")
+    public ResponseEntity<?> findByRut(@PathVariable String rut) {
+        ClientEntity c = clientService.findById(rut);
         if (c == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado");
         }
@@ -45,15 +49,16 @@ public class ClientController {
     public ResponseEntity<?> findByEmail(@PathVariable String email) {
         ClientEntity c = clientService.findByEmail(email);
         if (c == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado con email: " + email);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Cliente no encontrado con email: " + email);
         }
         return ResponseEntity.ok(c);
     }
 
-    // Eliminar cliente
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        boolean deleted = clientService.deleteById(id);
+    // Eliminar cliente por RUT
+    @DeleteMapping("/{rut}")
+    public ResponseEntity<String> delete(@PathVariable String rut) {
+        boolean deleted = clientService.deleteById(rut);
         if (!deleted) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado");
         }

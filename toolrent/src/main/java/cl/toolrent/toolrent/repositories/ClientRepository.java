@@ -2,22 +2,11 @@ package cl.toolrent.toolrent.repositories;
 
 import cl.toolrent.toolrent.entities.ClientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-@Repository
-public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
-
-    // OJO: usar las PROPIEDADES de ClientEntity:
-    // private String name;
-    // private String email;
-    // private String phone;
-    // private String status;
-
-    List<ClientEntity> findByNameContainingIgnoreCase(String name);
-
+public interface ClientRepository extends JpaRepository<ClientEntity, String> {
     ClientEntity findByEmail(String email);
-
-    List<ClientEntity> findByStatus(String status);
+    boolean existsByEmail(String email);
+    ClientEntity findByRut(String rut);      // opcional, JpaRepository ya trae findById(rut)
+    boolean existsByRut(String rut);         // opcional, JpaRepository ya trae existsById(rut)
 }
+

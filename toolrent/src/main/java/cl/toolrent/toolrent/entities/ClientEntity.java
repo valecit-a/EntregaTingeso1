@@ -14,9 +14,8 @@ import jakarta.persistence.*;
 public class ClientEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "clientId")
-    private Long clientId;
+    @Column(name = "rut", length = 12, nullable = false)
+    private String rut;
 
     @Column(name = "nameClient")
     private String name;     // <-- propiedad Java: name
@@ -29,4 +28,7 @@ public class ClientEntity {
 
     @Column(name = "statusClient")
     private String status;   // <-- propiedad Java: status
+
+    @Column(name = "debtClient")
+    private Integer debt;
 }

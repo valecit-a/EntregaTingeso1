@@ -2,27 +2,25 @@ package cl.toolrent.toolrent.repositories;
 
 import cl.toolrent.toolrent.entities.LoanEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Repository
 public interface LoanRepository extends JpaRepository<LoanEntity, Long> {
 
-    List<LoanEntity> findByClientId(Long clientId);
-    List<LoanEntity> findByToolId(Long toolId);
-    List<LoanEntity> findByStatus(String status);
+    // Bloqueo por préstamos vencidos
+    boolean existsByClientIdAndStatusAndDueDateBefore(String clientId, String status, LocalDate date);
 
+    // Bloqueo por multas/deudas (si las marcas con estado, p.ej. DEVUELTO_CON_MULTA)
+    boolean existsByClientIdAndStatus(String clientId, String status);
 
-    List<LoanEntity> findByClientIdAndStatusAndDueDateBefore(Long clientId, String status, LocalDate date);
+    // Límite de préstamos activos
+    long countByClientIdAndStatus(String clientId, String status);
 
-    List<LoanEntity> findByClientIdAndStatus(Long clientId, String status);
+    // Impedir misma herramienta prestada al mismo cliente simultáneamente
+    boolean existsByClientIdAndToolIdAndStatus(String clientId, Long toolId, String status);
 
+    // Utilidades
+    List<LoanEntity> findByClientIdAndStatus(String clientId, String status);
     List<LoanEntity> findByToolIdAndStatus(Long toolId, String status);
-
-    boolean existsByClientIdAndStatusAndDueDateBefore(Long clientId, String status, LocalDate date);
-
-    boolean existsByClientIdAndStatus(Long clientId, String status);
-
 }

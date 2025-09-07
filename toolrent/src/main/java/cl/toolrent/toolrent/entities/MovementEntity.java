@@ -18,19 +18,26 @@ public class MovementEntity {
     @Column(name = "movementId")
     private Long movementId;
 
-    @Column(name = "toolId")
+    @Column(name = "toolId", nullable = false)
     private Long toolId;
 
-    @Column(name = "userId")
-    private Long userId;
+    // Arrendatario (RUT del cliente si usas RUT como PK)
+    @Column(name = "clientId", nullable = false, length = 20)
+    private String clientId;
 
-    @Column(name = "typeMovement")
-    private String typeMovement; // Ingreso, Prestamo, Devolucion, Baja, Reparacion
+    // Trabajador/usuario del sistema que registra el movimiento
+    @Column(name = "userId", nullable = false, length = 20)
+    private String userId;
 
-    @Column(name = "dateMovement")
-    private String dateMovement; // fecha/hora como String para mantenerlo simple
+    // Ingreso | Prestamo | Devolucion | Baja | Reparacion
+    @Column(name = "typeMovement", nullable = false, length = 20)
+    private String typeMovement;
 
-    @Column(name = "quantity")
+    // Guardado como String (p.ej. "2025-09-07T12:00:00")
+    @Column(name = "dateMovement", nullable = false, length = 30)
+    private String dateMovement;
+
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
     @Column(name = "description")
