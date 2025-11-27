@@ -50,4 +50,18 @@ public class ToolService {
     public List<ToolEntity> getAllTools() {
         return toolRepository.findAll();
     }
+
+    public List<ToolEntity> findByCategory(String category) {
+        if (category == null || category.trim().isEmpty()) {
+            return List.of();
+        }
+        return toolRepository.findByCategory(category.trim());
+    }
+
+    public List<ToolEntity> findByStatus(String status) {
+        if (status == null || status.trim().isEmpty()) {
+            return List.of();
+        }
+        return toolRepository.findByStatus(status.trim());
+    }
 }

@@ -15,11 +15,11 @@ public class UserEntity {
     private String username;     // PK (login)
 
     @Column(name = "password", nullable = false)
-    private String password;     // SIN hash (por ahora, simple)
+    private String password;     // Con hash BCrypt para seguridad
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 20)
-    private Role role;           // ADMIN | EMPLOYEE
+    private Role role;           // ADMIN | EMPLOYEE | USER
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
@@ -30,5 +30,16 @@ public class UserEntity {
     @Column(name = "email")
     private String email;
 
-    public enum Role { ADMIN, EMPLOYEE }
+    @Column(name = "rut", length = 12, unique = true)
+    private String rut;
+
+    @Column(name = "phone", length = 20)
+    private String phone;
+
+    // Getter personalizado para userId (para compatibilidad con frontend)
+    public Long getUserId() {
+        return (long) username.hashCode(); // ID temporal basado en username
+    }
+
+    public enum Role { ADMIN, EMPLOYEE, USER }
 }

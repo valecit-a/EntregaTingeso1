@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/api/clients")
 @CrossOrigin("*")
 public class ClientController {
 
@@ -53,6 +53,25 @@ public class ClientController {
                     .body("Cliente no encontrado con email: " + email);
         }
         return ResponseEntity.ok(c);
+    }
+
+    // Actualizar cliente por RUT
+    @PutMapping("/{rut}")
+    public ResponseEntity<?> updateClient(@PathVariable String rut, @RequestBody ClientEntity client) {
+        ClientEntity existingClient = clientService.findById(rut);
+        if (existingClient == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente no encontrado");
+        }
+        
+        // Establecer el RUT del cliente a actualizar
+        client.setRut(rut);
+        ClientEntity updatedClient = clientService.update(client);
+        
+        if (updatedClient == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al actualizar cliente");
+        }
+        
+        return ResponseEntity.ok(updatedClient);
     }
 
     // Eliminar cliente por RUT

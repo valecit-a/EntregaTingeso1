@@ -26,5 +26,9 @@ public class RateEntity {
 
     @Column(name = "repairFee")
     private int repairFee;
+
+    public void setId(Long id) {
+        this.rateId = id;
+    }
 }
 
